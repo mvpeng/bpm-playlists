@@ -13,8 +13,12 @@ STATE_KEY = 'spotify_auth_state'
 def index(request):
     return render(request, 'index.html')
 
+def create(request):
+    request.session['playlist_info'] = request.POST
+    return login(request)
+
 def login(request):
-    scope = 'user-read-private user-read-email'
+    scope = 'playlist-modify-public playlist-modify-private user-library-read'
     state = generateRandomString(16)
     query = urlencode({ 'response_type': 'code',
                         'client_id': CLIENT_ID,
@@ -27,12 +31,12 @@ def login(request):
     return response
 
 def callback(request):
-    authorization_code = request.GET.get('code')
-    state = request.GET.get('state')
+    authorization_code = request.GET['code']
+    state = request.GET['state']
     storedState = request.get_signed_cookie(STATE_KEY, False)
 
     if state == None or state != storedState:
-        return HttpResponse("Could not authenticate. State mismatch.")
+        return render(request, 'index.html', {'error_message': "Could not authenticate. State mismatch."})
     else:
         # exchange authorization_code for an access_token
         url = 'https://accounts.spotify.com/api/token'
@@ -47,10 +51,9 @@ def callback(request):
             access_token = body['access_token']
             refresh_token = body['refresh_token']
         else:
-            return HttpResponse("Could not get token.")
+            return render(request, 'index.html', {'error_message': "Could not get token."})
 
-        return render(request, 'callback.html')
-
+        return render(request, 'index.html', { 'playlist_info': request.session['playlist_info'] })
 
 def generateRandomString(length):
     result = ''

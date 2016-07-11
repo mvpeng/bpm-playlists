@@ -1,5 +1,23 @@
-<h1>bpm-playlists</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BPM Playlist Creator</title>
+    </head>
+    <body>
+        <h1>bpm-playlists</h1>
+        <p>This app creates a Spotify playlist of songs from your Spotify library with a specified BPM. Enter the desired BPM range and a name for this new playlist.</p>
 
-<p>This app creates a Spotify playlist of songs from your Spotify library with a specified BPM. Enter the desired BPM range and a name for this new playlist.</p>
+        <form action="{% url 'create' %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="min_bpm" placeholder="Min">
+            <input type="number" name="max_bpm" placeholder="Max">
+            <input type="text" name="playlist_name" placeholder="Playlist name">
+            <input type="submit" value="Create playlist">
+        </form>
 
-<a href="/login">Log in with Spotify</a>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        {% if playlist_info %}<p>Created playlist <strong>{{ playlist_info.playlist_name }}</strong> with songs with bpm {{ playlist_info.min_bpm }} to {{ playlist_info.max_bpm }}!</p>{% endif %}
+    </body>
+</html>
+
