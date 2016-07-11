@@ -34,6 +34,7 @@ def callback(request):
     authorization_code = request.GET['code']
     state = request.GET['state']
     storedState = request.get_signed_cookie(STATE_KEY, False)
+    access_token = None
 
     if state == None or state != storedState:
         return render(request, 'index.html', {'error_message': "Could not authenticate. State mismatch."})
@@ -53,7 +54,18 @@ def callback(request):
         else:
             return render(request, 'index.html', {'error_message': "Could not get token."})
 
-        return render(request, 'index.html', { 'playlist_info': request.session['playlist_info'] })
+        playlist_songs = computeBPM(request.session['playlist_info'], access_token)
+        context = { 'playlist_info': request.session['playlist_info'], 
+                    'playlist_songs': playlist_songs }
+        return render(request, 'index.html', context)
+
+def computeBPM(playlist_info, access_token):
+    url = 'https://api.spotify.com/v1/me/tracks'
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        body = response.json()
+        return body
 
 def generateRandomString(length):
     result = ''

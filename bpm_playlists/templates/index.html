@@ -18,6 +18,12 @@
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
         {% if playlist_info %}<p>Created playlist <strong>{{ playlist_info.playlist_name }}</strong> with songs with bpm {{ playlist_info.min_bpm }} to {{ playlist_info.max_bpm }}!</p>{% endif %}
+
+        {% if playlist_songs %}
+            {% for song in playlist_songs.items %}
+                <li>{{ song.track.name }}</li>
+            {% endfor %}
+        {% endif %}
     </body>
 </html>
 
