@@ -71,7 +71,6 @@ def addTracksToPlaylist(userId, playlistId, tracks, access_token):
     body = json.dumps({ 'uris': uris })
 
     response = requests.post(url, headers=headers, data=body)
-    print response
 
 def generateRandomString(length):
     result = ''
