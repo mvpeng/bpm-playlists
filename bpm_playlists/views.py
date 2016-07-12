@@ -56,7 +56,7 @@ def callback(request):
         else:
             return render(request, 'index.html', {'error_message': "Could not get token."})
 
-        playlist_songs = utils.createPlaylistWithBPM(request.session['playlist_info'], access_token)
+        playlist = utils.createPlaylistWithBPM(request.session['playlist_info'], access_token)
         context = { 'playlist_info': request.session['playlist_info'], 
-                    'playlist_songs': playlist_songs }
+                    'playlist': playlist }
         return render(request, 'index.html', context)

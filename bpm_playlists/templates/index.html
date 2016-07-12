@@ -17,23 +17,12 @@
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        {% if playlist_info %}<p>Created playlist <strong>{{ playlist_info.playlist_name }}</strong> containing the following songs with bpm {{ playlist_info.min_bpm }} to {{ playlist_info.max_bpm }}!</p>{% endif %}
+        {% if playlist_info %}
+        <p>Created playlist <strong>{{ playlist_info.playlist_name }}</strong> containing the following songs with bpm {{ playlist_info.min_bpm }} to {{ playlist_info.max_bpm }}! This is a private playlist on your account.</p>
+        {% endif %}
 
-        {% if playlist_songs %}
-            <table>
-                <tr>
-                    <th>Track</th>
-                    <th>Artist</th>
-                    <th>BPM</th>
-                </tr>
-                {% for song in playlist_songs %}
-                    <tr>
-                        <td>{{ song.track.name }}</td>
-                        <td>{{ song.track.artists.0.name }}</td>
-                        <td>{{ song.track.bpm }}</td>
-                    </li>
-                {% endfor %}
-            </table>
+        {% if playlist %}
+            <iframe src="https://embed.spotify.com/?uri={{ playlist }}&theme=white" width="500" height="420" frameborder="0" allowtransparency="true"></iframe>
         {% endif %}
     </body>
 </html>

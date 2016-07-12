@@ -4,9 +4,8 @@ import json
 
 def createPlaylistWithBPM(playlist_info, access_token):
     tracks = getUsersMostRecentTracks(access_token)
-    tracks = filterTracksByBPM(tracks, playlist_info['min_bpm'], playlist_info['max_bpm'], access_token)
-    createAndPopulatePlaylist(playlist_info['playlist_name'], tracks, access_token)
-    return tracks
+    filterTracksByBPM(tracks, playlist_info['min_bpm'], playlist_info['max_bpm'], access_token)
+    return createAndPopulatePlaylist(playlist_info['playlist_name'], tracks, access_token)
 
 def getUsersMostRecentTracks(access_token):
     url = 'https://api.spotify.com/v1/me/tracks'
@@ -42,8 +41,9 @@ def filterTracksByBPM(tracks, minBPM, maxBPM, access_token):
 
 def createAndPopulatePlaylist(playlistName, tracks, access_token):
     userId = getUserId(access_token)
-    playlistId = createPlaylist(userId, playlistName, access_token)
-    addTracksToPlaylist(userId, playlistId, tracks, access_token)
+    playlist = createPlaylist(userId, playlistName, access_token)
+    addTracksToPlaylist(userId, playlist['id'], tracks, access_token)
+    return playlist['uri']
 
 def getUserId(access_token):
     headers = {'Authorization': 'Bearer ' + access_token}
@@ -59,7 +59,7 @@ def createPlaylist(userId, playlistName, access_token):
 
     response = requests.post(url, headers=headers, data=body)
     if response.status_code == 200 or response.status_code == 201:
-        return response.json()['id']
+        return response.json()
 
 def addTracksToPlaylist(userId, playlistId, tracks, access_token):
     url = 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId + '/tracks'
