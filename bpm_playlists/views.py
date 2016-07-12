@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from urllib import urlencode
 import random, math, os, base64
 import requests
+from . import utils
 
 CLIENT_ID= '4df0271d6b1f4768a5bd929a13091e8b'
 CLIENT_SECRET = os.environ.get('BPMPLAYLISTS_SECRET_KEY')
@@ -19,7 +20,7 @@ def create(request):
 
 def login(request):
     scope = 'playlist-modify-public playlist-modify-private user-library-read'
-    state = generateRandomString(16)
+    state = utils.generateRandomString(16)
     query = urlencode({ 'response_type': 'code',
                         'client_id': CLIENT_ID,
                         'scope': scope,
@@ -54,23 +55,7 @@ def callback(request):
         else:
             return render(request, 'index.html', {'error_message': "Could not get token."})
 
-        playlist_songs = computeBPM(request.session['playlist_info'], access_token)
+        playlist_songs = utils.createPlaylistWithBPM(request.session['playlist_info'], access_token)
         context = { 'playlist_info': request.session['playlist_info'], 
                     'playlist_songs': playlist_songs }
         return render(request, 'index.html', context)
-
-def computeBPM(playlist_info, access_token):
-    url = 'https://api.spotify.com/v1/me/tracks'
-    headers = {'Authorization': 'Bearer ' + access_token}
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        body = response.json()
-        return body
-
-def generateRandomString(length):
-    result = ''
-    possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for i in xrange(length):
-        result += possible[int(math.floor(random.random() * len(possible)))]
-    return result
