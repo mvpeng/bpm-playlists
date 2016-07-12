@@ -21,7 +21,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@$!527#o+nhg=oa)01q6#^jfbj)#sb9q+*p^)lscilbe+v2gj+'
+SECRET_KEY = 'secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -144,3 +144,13 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Spotify API keys and settings
+CLIENT_ID= '4df0271d6b1f4768a5bd929a13091e8b'
+CLIENT_SECRET = 'secret'
+REDIRECT_URI = 'redirect'
+
+try:
+    from settings_local import *
+except ImportError:
+    pass
