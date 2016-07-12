@@ -17,7 +17,6 @@ def index(request):
 
 def create(request):
     request.session['playlist_info'] = request.POST
-    print "lala"
     return login(request)
 
 def login(request):
@@ -26,7 +25,7 @@ def login(request):
     query = urlencode({ 'response_type': 'code',
                         'client_id': CLIENT_ID,
                         'scope': scope,
-                        'redirect_uri': 'http://' + request.META['HTTP_HOST'] + REDIRECT_URI,
+                        'redirect_uri': request.build_absolute_uri(REDIRECT_URI),
                         'state': state })
 
     response = HttpResponseRedirect('https://accounts.spotify.com/authorize?' + query)
@@ -46,7 +45,7 @@ def callback(request):
         url = 'https://accounts.spotify.com/api/token'
         headers = {'Authorization': 'Basic ' + base64.b64encode(CLIENT_ID + ':' + CLIENT_SECRET)}
         body = {'code': authorization_code, 
-                'redirect_uri': 'http://' + request.META['HTTP_HOST'] + REDIRECT_URI, 
+                'redirect_uri': request.build_absolute_uri(REDIRECT_URI), 
                 'grant_type': 'authorization_code'}
 
         response = requests.post(url, headers=headers, data=body)
