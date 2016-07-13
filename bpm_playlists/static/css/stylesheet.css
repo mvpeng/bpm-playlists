@@ -7,6 +7,8 @@
 
 .results div.playlist-table-wrapper
 {
+    height: 420px;
+    overflow-y: scroll;
     border: 1px solid black;
     order: 1;
     flex: 1 1 auto;
@@ -17,3 +19,14 @@
     order: 2;
     flex: 0 1 auto;
 }
+
+table {
+    width: 100%
+}
+
+th {
+    background-color: gray;
+    color: white;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2}
