@@ -29,7 +29,7 @@ def filterTracksByBPM(tracks, minBPM, maxBPM, access_token):
     if response.status_code == 200:
         results = response.json()['audio_features']
         for i in xrange(len(tracks)):
-            tracks[i]['track']['bpm'] = results[i]['tempo']
+            tracks[i]['track']['bpm'] = int(results[i]['tempo'])
         
         if minBPM != "" and maxBPM != "":
             for track in tracks:
