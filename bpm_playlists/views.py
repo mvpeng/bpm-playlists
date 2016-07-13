@@ -4,6 +4,7 @@ from urllib import urlencode
 import random, math, os, base64
 import requests
 from . import utils
+from .forms import BPMPlaylistForm
 
 # Spotify API keys
 CLIENT_ID= '4df0271d6b1f4768a5bd929a13091e8b'
@@ -16,8 +17,14 @@ def index(request):
     return render(request, 'index.html')
 
 def create(request):
-    request.session['playlist_info'] = request.POST
-    return login(request)
+    form = BPMPlaylistForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data
+        if data['min_bpm'] > data ['max_bpm']:
+            return render(request, 'index.html', {'error_message': "Min BPM must be smaller than or equal to Max BPM"})
+        request.session['playlist_info'] = data
+        return login(request)
+    return render(request, 'index.html', {'error_message': "Please set BPM and name values."})
 
 def login(request):
     scope = 'playlist-modify-public playlist-modify-private user-library-read'

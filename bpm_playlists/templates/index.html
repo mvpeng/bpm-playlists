@@ -13,9 +13,7 @@
 
         <form action="{% url 'create' %}" method="post">
             {% csrf_token %}
-            <input type="number" name="min_bpm" placeholder="Min">
-            <input type="number" name="max_bpm" placeholder="Max">
-            <input type="text" name="playlist_name" placeholder="Playlist name">
+            {{ form }}
             <input type="submit" value="Create playlist">
         </form>
 
