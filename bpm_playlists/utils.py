@@ -4,8 +4,9 @@ import json
 
 def createPlaylistWithBPM(playlist_info, access_token):
     tracks = getUsersMostRecentTracks(access_token)
-    filterTracksByBPM(tracks, playlist_info['min_bpm'], playlist_info['max_bpm'], access_token)
-    return createAndPopulatePlaylist(playlist_info['playlist_name'], tracks, access_token)
+    tracks = filterTracksByBPM(tracks, playlist_info['min_bpm'], playlist_info['max_bpm'], access_token)
+    playlistURI =  createAndPopulatePlaylist(playlist_info['playlist_name'], tracks, access_token)
+    return {'uri': playlistURI, 'tracks': tracks}
 
 def getUsersMostRecentTracks(access_token):
     url = 'https://api.spotify.com/v1/me/tracks'

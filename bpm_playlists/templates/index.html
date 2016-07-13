@@ -1,7 +1,11 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
         <title>BPM Playlist Creator</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
     </head>
     <body>
         <h1>bpm-playlists</h1>
@@ -22,8 +26,27 @@
         {% endif %}
 
         {% if playlist %}
-            <iframe src="https://embed.spotify.com/?uri={{ playlist }}&theme=white" width="500" height="420" frameborder="0" allowtransparency="true"></iframe>
+            <div class="results">
+                <div class="spotify-widget">
+                    <iframe src="https://embed.spotify.com/?uri={{ playlist.uri }}&theme=white" width="500" height="420" frameborder="0" allowtransparency="true"></iframe>
+                </div>
+                <div class="playlist-table-wrapper">
+                    <table>
+                        <tr>
+                            <th>Track</th>
+                            <th>BPM</th>
+                        </tr>
+                        {% for t in playlist.tracks %}
+                            <tr>
+                                <td>{{ t.track.name }}</td>
+                                <td>{{ t.track.bpm }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         {% endif %}
+
     </body>
 </html>
 

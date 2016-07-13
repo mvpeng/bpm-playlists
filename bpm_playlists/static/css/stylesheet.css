@@ -1,0 +1,19 @@
+.results
+{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-flow: row nowrap;
+}
+
+.results div.playlist-table-wrapper
+{
+    border: 1px solid black;
+    order: 1;
+    flex: 1 1 auto;
+}
+
+.results div.spotify-widget
+{
+    order: 2;
+    flex: 0 1 auto;
+}
