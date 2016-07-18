@@ -1,20 +1,5 @@
-.results {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-flow: row nowrap;
-}
-
-.results div.playlist-table-wrapper {
-    height: 420px;
-    overflow-y: scroll;
-    border: 1px solid black;
-    order: 1;
-    flex: 1 1 auto;
-}
-
-.results div.spotify-widget {
-    order: 2;
-    flex: 0 1 auto;
+h1 span {
+    font-size: 40%;
 }
 
 body {
@@ -36,6 +21,25 @@ form {
 }
 
 tr:nth-child(even) {background-color: #f2f2f2}
+
+.results {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-flow: row nowrap;
+}
+
+.results div.playlist-table-wrapper {
+    height: 420px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    order: 1;
+    flex: 1 1 auto;
+}
+
+.results div.spotify-widget {
+    order: 2;
+    flex: 0 1 auto;
+}
 
 .carousel {
     height: 420px;
