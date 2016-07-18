@@ -73,6 +73,22 @@ def addTracksToPlaylist(userId, playlistId, tracks, access_token):
 
     response = requests.post(url, headers=headers, data=body)
 
+def getPreviewTracks():
+    url = 'https://api.spotify.com/v1/tracks'
+
+    previewTracks = { '3RiPr603aXAoi4GHyXx0uy': 90, # Hymn for the Weekend
+                      '5yZvaUVyuXfSVUaMumFi6l': 140, # Runnin
+                      '5hPWHC0L6z0KLET5rRkpTR': 175, # Better Now
+                      '6MDijuuArPJv1vbp7K1x3f': 94 } # Genghis Khan 
+
+    response = requests.get(url, params={'ids': ','.join(previewTracks.keys())})
+
+    if response.status_code == 200:
+        tracks = response.json()['tracks']
+        for t in tracks:
+            t['bpm'] = previewTracks[t['id']]
+        return tracks
+
 def generateRandomString(length):
     result = ''
     possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

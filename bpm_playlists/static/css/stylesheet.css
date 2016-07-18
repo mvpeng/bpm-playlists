@@ -1,12 +1,10 @@
-.results
-{
+.results {
     display: flex;
     flex-wrap: nowrap;
     flex-flow: row nowrap;
 }
 
-.results div.playlist-table-wrapper
-{
+.results div.playlist-table-wrapper {
     height: 420px;
     overflow-y: scroll;
     border: 1px solid black;
@@ -14,8 +12,7 @@
     flex: 1 1 auto;
 }
 
-.results div.spotify-widget
-{
+.results div.spotify-widget {
     order: 2;
     flex: 0 1 auto;
 }
@@ -34,4 +31,22 @@ th {
     color: white;
 }
 
+form {
+    padding-bottom: 10px;
+}
+
 tr:nth-child(even) {background-color: #f2f2f2}
+
+.carousel {
+    height: 420px;
+}
+
+.carousel-inner > .item > img {
+    margin: auto;
+    height: 420px;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+}

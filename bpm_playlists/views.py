@@ -14,7 +14,8 @@ REDIRECT_URI = '/callback'
 STATE_KEY = 'spotify_auth_state'
 
 def index(request):
-    return render(request, 'index.html')
+    preview_tracks = utils.getPreviewTracks()
+    return render(request, 'index.html', {'preview_tracks': preview_tracks})
 
 def create(request):
     form = BPMPlaylistForm(request.POST)
