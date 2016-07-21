@@ -48,9 +48,12 @@ tr:nth-child(even) {background-color: #f2f2f2}
 .carousel-inner > .item > img {
     margin: auto;
     height: 420px;
+    padding-top: 55px;
 }
 
 .carousel-caption {
     position: absolute;
-    top: 50%;
+    top: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
